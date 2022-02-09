@@ -6,22 +6,28 @@
 typedef std::function<double(double x)> func1D;
 
 // Вывод в файлы для метода дихотомии, золотого сечения и фибоначчи
-void print(std::ofstream& out, uint32_t iter, double a, double b, double f1, double f2)
+void print(std::ofstream& out, uint32_t iter, double x1, double x2, double f1, double f2, double a, double b, double a_prev, double b_prev)
 {
-	out.precision(14);
+	out.precision(10);
 
-	if (iter == 0)
+	if (iter == 1)
 	{
 		out << std::left << std::setw(6) << "iter"
-			<< std::setw(20) << "a_i" << std::setw(20) << "b_i"
-			<< std::setw(25) << "f1" << std::setw(25) << "f2"
+			<< std::setw(15) << "|x1" << std::setw(15) << "|x2"
+			<< std::setw(20) << "|f1" << std::setw(20) << "|f2"
+			<< std::setw(15) << "|a_i" << std::setw(15) << "|b_i"
+			<< std::setw(20) << "|b_i - a_i"
+			<< std::setw(15)  << "|(b_prev - a_prev)/(b - a)"
 			<< std::endl;
-		out << "----------------------------------------------------------------------------------------" << std::endl;
+		out << "--------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 	}
 
 	out << std::left << std::setw(6) << iter
-		<< std::setw(20) << a << std::setw(20) << b
-		<< std::setw(25) << f1 << std::setw(25) << f2
+		<< "|" << std::setw(14) << x1 << "|" << std::setw(14) << x2
+		<< "|" << std::setw(19) << f1 << "|" << std::setw(19) << f2
+		<< "|" << std::setw(14) << a  << "|" << std::setw(14) << b
+		<< "|" << std::setw(19) << b - a
+		<< "|" << std::setw(14) << (b_prev - a_prev) / (b - a)
 		<< std::endl;
 }
 
@@ -32,6 +38,8 @@ void dichotomy(const func1D &f, double a, double b, double eps)
 	double x1 = 0, x2 = 0;
 	double f_x1, f_x2;
 
+	double a_prev, b_prev;
+
 	uint32_t call_to_func = 0;
 	uint32_t iter = 0;
 
@@ -41,6 +49,9 @@ void dichotomy(const func1D &f, double a, double b, double eps)
 
 	for ( ; abs(b - a) >= eps; iter++)
 	{
+		a_prev = a; 
+		b_prev = b;
+
 		x1 = (a + b - delta) / 2.0;
 		x2 = (a + b + delta) / 2.0;
 
@@ -53,7 +64,7 @@ void dichotomy(const func1D &f, double a, double b, double eps)
 		else
 			a = x1;
 
-		print(out, iter, a, b, f_x1, f_x2);
+		print(out, iter + 1, x1, x2, f_x1, f_x2, a, b, a_prev, b_prev);
 	}
 
 	out << "call to function: " << call_to_func
@@ -76,12 +87,17 @@ void golden_ratio(const func1D& f, double a, double b, double eps)
 	double x1 = a + (3.0 - sqrt(5.0)) / 2.0 * (b - a);
 	double x2 = a + (sqrt(5.0) - 1.0) / 2.0 * (b - a);
 
+	double a_prev, b_prev;
+
 	double f_x1 = f(x1);
 	double f_x2 = f(x2);
 	call_to_func += 2;
 
 	for (; abs(b - a) >= eps; iter++)
 	{
+		a_prev = a;
+		b_prev = b;
+
 		if (f_x1 < f_x2)
 		{
 			b = x2;
@@ -101,7 +117,7 @@ void golden_ratio(const func1D& f, double a, double b, double eps)
 			call_to_func++;
 		}
 
-		print(out, iter, a, b, f_x1, f_x2);
+		print(out, iter + 1, x1, x2, f_x1, f_x2, a, b, a_prev, b_prev);
 	}
 
 	out << "call to function: " << call_to_func
@@ -115,7 +131,7 @@ void golden_ratio(const func1D& f, double a, double b, double eps)
 void find_interval(const func1D& f, double a, double b, double x0, double eps)
 {
 	std::ofstream out("interval.txt", std::ios::app);
-	out.precision(14);
+	out.precision(10);
 
 	double delta = eps / 2.0;
 
@@ -141,6 +157,8 @@ void find_interval(const func1D& f, double a, double b, double x0, double eps)
 	x = x0;
 	f2 = f(xk1);
 
+	out << std::left << std::setw(15) << "x"
+		<< std::setw(15) << "f(x)" << std::endl;
 	do
 	{
 		xk_1 = x;
@@ -151,11 +169,12 @@ void find_interval(const func1D& f, double a, double b, double x0, double eps)
 		xk1 = x + h;
 		f2 = f(xk1);
 
-		out << "[" << xk_1 << ", " << xk1 << "]" << std::endl;
+		out << std::left << std::setw(15) << x
+			<< std::setw(15) << f1 << std::endl;
 
 	} while (f1 > f2);
 
-	out << std::endl << std::endl;
+	out << "Interval with a minimum of a function: [" << xk_1 << ", " << xk1 << "]" << std::endl << std::endl;
 	out.close();
 }
 
@@ -194,10 +213,15 @@ void fibonacci(const func1D& f, double a, double b, double eps)
 	double f_x2 = f(x2);
 	call_to_func += 2;
 
+	double a_prev, b_prev;
+
 	double length = b - a;
 
 	for (uint32_t k = 1; abs(b - a) >= eps; k++)
 	{
+		a_prev = a;
+		b_prev = b;
+
 		if (f_x1 > f_x2)
 		{
 			a = x1;
@@ -217,7 +241,7 @@ void fibonacci(const func1D& f, double a, double b, double eps)
 			call_to_func++;
 		}
 
-		print(out, k - 1, a, b, f_x1, f_x2);
+		print(out, k, x1, x2, f_x1, f_x2, a, b, a_prev, b_prev);
 	}
 
 	out << "call to function: " << call_to_func
@@ -240,7 +264,7 @@ int main()
 
 		golden_ratio(f, a, b, i);
 
-		find_interval(f, a, b, 20, i);
+		find_interval(f, a, b, 0, i);
 
 		fibonacci(f, a, b, i);
 	}
