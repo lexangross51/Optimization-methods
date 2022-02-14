@@ -35,8 +35,9 @@ int main()
 	std::vector<double> x0 = {0, 0};
 
 	double epsilons[] = {1e-3, 1e-4, 1e-5, 1e-6, 1e-7};
+	double eps = 1e-7;
 	
-	for (const auto& eps : epsilons)
+	//for (const auto& eps : epsilons)
 	{
 		auto res1 = methods.broyden(functions[2], x0, eps);
 		res1.save("broyden.txt");
