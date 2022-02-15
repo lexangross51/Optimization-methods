@@ -57,8 +57,14 @@ class one_dimensional_search_methods
 	};
 
 public:
-	static result fibonacci(const VectorFunc& f, std::vector<double>& x, 
-							interval& interval, std::vector<double>& S, double eps);
+	static result dichotomy(const VectorFunc& f, std::vector<double>& x,
+		interval& interval, std::vector<double>& S, double eps);
+
+	static result golden_ratio(const VectorFunc& f, std::vector<double>& x,
+		interval& interval, std::vector<double>& S, double eps);
+
+	static result fibonacci(const VectorFunc& f, std::vector<double>& x,
+		interval& interval, std::vector<double>& S, double eps);
 
 	static result find_interval(const VectorFunc& f, std::vector<double>& x, 
 								std::vector<double>& S, double eps);

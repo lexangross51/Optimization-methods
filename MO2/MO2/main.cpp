@@ -1,6 +1,9 @@
 ﻿#include "methods.h"
+#include <string>
 
 uint32_t calls_to_func;
+
+const uint32_t DIMENSION;
 
 int main()
 {
@@ -29,7 +32,9 @@ int main()
 		}
 	};
 
-	descent_methods methods(2);
+	std::string func_names[] = {"Функция_по_варианту", "Квадратичная_функция", "Функция_Розенброка"};
+
+	descent_methods methods(DIMENSION);
 
 	// Начальное приближение
 	std::vector<double> x0 = {0, 0};
@@ -38,15 +43,27 @@ int main()
 	double eps = 1e-7;
 	
 	//for (const auto& eps : epsilons)
-	{
-		auto res1 = methods.broyden(functions[2], x0, eps);
-		res1.save("broyden.txt");
-		x0 = { 0, 0 };
+	//{
+	//	auto res1 = methods.broyden(functions[1], x0, eps);
+	//	res1.save("broyden.txt");
+	//	x0 = { 0, 0 };
 
-		auto res2 = methods.CGMFR(functions[2], x0, eps);
-		res2.save("CGMFR.txt");
-		x0 = { 0, 0 };
-	}
+	//	auto res2 = methods.CGMFR(functions[1], x0, eps);
+	//	res2.save("CGMFR.txt");
+	//	x0 = { 0, 0 };
+	//}
+
+	auto res1 = methods.broyden(functions[1], x0, eps);
+	res1.save("broyden.txt");
+	std::string run_python = "python draw.py Бройден_" + func_names[1] + " " + "steps_broyden.txt";
+	system(run_python.c_str());
+	x0 = { 0, 0 };
+
+	auto res2 = methods.CGMFR(functions[1], x0, eps);
+	res2.save("CGMFR.txt");
+	run_python = "python draw.py МСГРФ_" + func_names[1] + " " + "steps_CGMFR.txt";
+	system(run_python.c_str());
+	x0 = { 0, 0 };
 
 	return 0;
 }

@@ -164,9 +164,7 @@ descent_methods::result descent_methods::CGMFR(const VectorFunc& f, std::vector<
 			steps << x0[0] << " " << x0[1] << std::endl;
 
 			if (norm(S) < eps)
-			{
 				break;
-			}
 		}
 	}
 
@@ -334,6 +332,80 @@ one_dimensional_search_methods::result one_dimensional_search_methods::fibonacci
 		}
 	}
 	
+	res.value = (a + b) / 2.0;
+	res.call_to_func = calls_to_func;
+	return res;
+}
+
+// Метод дихотомии одномерного поиска
+one_dimensional_search_methods::result one_dimensional_search_methods::dichotomy(
+	const VectorFunc& f, std::vector<double>& x, interval& interval, std::vector<double>& S, double eps)
+{
+	result res;
+
+	double a = interval.a;
+	double b = interval.b;
+
+	double delta = eps / 2.0;
+
+	for (; abs(b - a) >= eps; )
+	{
+		double lambda1 = (a + b - delta) / 2.0;
+		double lambda2 = (a + b + delta) / 2.0;
+
+		double f_x1 = f(x + lambda1 * S);
+		double f_x2 = f(x + lambda2 * S);
+
+		res.iters_cnt++;
+
+		if (f_x1 > f_x2)
+			a = lambda1;
+		else
+			b = lambda2;
+	}
+
+	res.value = (a + b) / 2.0;
+	res.call_to_func = calls_to_func;
+	return res;
+}
+
+// Метод золотого сечения одномерного поиска
+one_dimensional_search_methods::result one_dimensional_search_methods::golden_ratio(
+	const VectorFunc& f, std::vector<double>& x, interval& interval, std::vector<double>& S, double eps)
+{
+	result res;
+
+	double a = interval.a;
+	double b = interval.b;
+
+	double delta = eps / 2.0;
+
+	double lambda1 = a + (3.0 - sqrt(5.0)) / 2.0 * (b - a);
+	double lambda2 = a + (sqrt(5.0) - 1.0) / 2.0 * (b - a);
+
+	double f_x1 = f(x + lambda1 * S);
+	double f_x2 = f(x + lambda2 * S);
+
+	for (; abs(b - a) >= eps; )
+	{
+		if (f_x1 > f_x2)
+		{
+			a = lambda1;
+			lambda1 = lambda2;
+			f_x1 = f_x2;
+			lambda2 = a + (sqrt(5.0) - 1.0) / 2.0 * (b - a);
+			f_x2 = f(x + lambda2 * S);
+		}
+		else
+		{
+			b = lambda2;
+			lambda2 = lambda1;
+			f_x2 = f_x1;
+			lambda1 = a + (3.0 - sqrt(5.0)) / 2.0 * (b - a);
+			f_x1 = f(x + lambda1 * S);
+		}
+	}
+
 	res.value = (a + b) / 2.0;
 	res.call_to_func = calls_to_func;
 	return res;

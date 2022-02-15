@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pylab as pl
 from decimal import Decimal as dcm
+import sys
 
 # Функция по варианту
 def f1(x, y):
@@ -30,7 +31,7 @@ def input(filename):
 
 # Строим сетку
 def build_mesh(func):
-	x = np.arange(-2, 3, 0.05)
+	x = np.arange(-3, 3, 0.05)
 	y = np.arange(-2, 3, 0.05)
 
 	X, Y = np.meshgrid(x, y)
@@ -40,18 +41,21 @@ def build_mesh(func):
 	return X, Y, Z
 
 # Отрисовка линии
-def draw_line(x, y):
+def draw_line(x, y, name):
+	plt.title(name)
 	plt.scatter(x, y, s = 20, color = "blue")
 	plt.plot(x, y, color = "cyan")
 	plt.xlabel("X")
 	plt.ylabel("Y")
 
 def main():
-	x, y = input("steps_broyden.txt")
+	name = sys.argv[1]
+	filename = sys.argv[2]
+	x, y = input(filename)
 	X, Y, Z = build_mesh(f2)
 	pl.contour(X, Y, Z)
-	draw_line(x, y)
-	plt.savefig("1.png")
+	draw_line(x, y, name)
+	plt.savefig("images\\" + name + ".png")
 	plt.clf()
 
 if __name__ == "__main__":
