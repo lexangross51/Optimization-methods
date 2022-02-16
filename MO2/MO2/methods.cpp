@@ -378,8 +378,6 @@ one_dimensional_search_methods::result one_dimensional_search_methods::golden_ra
 	double a = interval.a;
 	double b = interval.b;
 
-	double delta = eps / 2.0;
-
 	double lambda1 = a + (3.0 - sqrt(5.0)) / 2.0 * (b - a);
 	double lambda2 = a + (sqrt(5.0) - 1.0) / 2.0 * (b - a);
 
@@ -408,5 +406,77 @@ one_dimensional_search_methods::result one_dimensional_search_methods::golden_ra
 
 	res.value = (a + b) / 2.0;
 	res.call_to_func = calls_to_func;
+	return res;
+}
+
+// Метод парабол одномерного поиска
+one_dimensional_search_methods::result one_dimensional_search_methods::parabola(
+	const VectorFunc& f, std::vector<double>& x, interval& interval, std::vector<double>& S, double eps)
+{
+	result res;
+
+	double a = interval.a;
+	double b = interval.b;
+
+	double lambda1 = a;
+	double lambda2 = (a + b) / 2.0;
+	double lambda3 = b;
+	double lambda = 0, lambda_prev = 0;
+
+	double f1 = f(x + lambda1 * S);
+	double f2 = f(x + lambda2 * S);
+	double f3 = f(x + lambda3 * S);
+
+	while(true)
+	{
+		double c1 = f1;
+		double c2 = (f2 - f1) / (lambda2 - lambda1);
+		double c3 = ((f3 - f1) / (lambda3 - lambda1) - (f2 - f1) / (lambda2 - lambda1)) / (lambda3 - lambda2);
+
+		lambda = (lambda1 + lambda2 - c2 / c3) / 2.0;
+
+		double fx = f(x + lambda * S);
+
+		if (abs(lambda - lambda_prev) < eps)
+			break;
+
+		lambda_prev = lambda;
+
+		if (lambda > lambda2)
+		{
+			if (fx > f2)
+			{
+				lambda3 = lambda;
+				f3 = fx;
+			}
+			else
+			{
+				lambda1 = lambda2;
+				f1 = f2;
+				lambda2 = lambda;
+				f2 = fx;
+			}
+		}
+		else
+		{
+			if (fx < f2)
+			{
+				lambda3 = lambda2;
+				f3 = f2;
+				lambda2 = lambda;
+				f2 = fx;
+			}
+			else
+			{
+				lambda1 = lambda;
+				f1 = fx;
+			}
+		}
+		res.iters_cnt++;
+
+	}/* while (abs(lambda - lambda_prev) >= eps);*/
+
+	res.call_to_func = calls_to_func;
+	res.value = lambda;
 	return res;
 }

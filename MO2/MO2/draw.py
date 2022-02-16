@@ -52,7 +52,7 @@ def main():
 	name = sys.argv[1]
 	filename = sys.argv[2]
 	x, y = input(filename)
-	X, Y, Z = build_mesh(f2)
+	X, Y, Z = build_mesh(f3)
 	pl.contour(X, Y, Z)
 	draw_line(x, y, name)
 	plt.savefig("images\\" + name + ".png")
