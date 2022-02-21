@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pylab as pl
+from mpl_toolkits import mplot3d
 from decimal import Decimal as dcm
 import sys
 
@@ -23,16 +24,16 @@ def input(filename):
 
 	with open (filename) as file:
 		for line in file:
-			x_i, y_i = line.split(" ")
-			x.append(dcm(x_i))
-			y.append(dcm(y_i))
+			x_i, y_i = map(dcm, line.split(" "))
+			x.append(x_i)
+			y.append(y_i)
 
 	return x, y
 
 # Строим сетку
 def build_mesh(func):
 	x = np.arange(-3, 3, 0.05)
-	y = np.arange(-2, 3, 0.05)
+	y = np.arange(-3, 3, 0.05)
 
 	X, Y = np.meshgrid(x, y)
 
@@ -53,10 +54,10 @@ def main():
 	filename = sys.argv[2]
 	x, y = input(filename)
 	X, Y, Z = build_mesh(f3)
-	pl.contour(X, Y, Z)
+
+	plt.contour(X, Y, Z)
 	draw_line(x, y, name)
 	plt.savefig("images\\" + name + ".png")
-	plt.clf()
 
 if __name__ == "__main__":
 	main()

@@ -13,8 +13,8 @@ int main()
 		[](const std::vector<double>& x)
 		{
 			calls_to_func++;
-			return	3 * exp(-(pow((x[0] - 2) / 1.0, 2) - pow((x[1] - 3) / 2.0, 2))) +
-					1 * exp(-(pow((x[0] - 1) / 2.0, 2) - pow((x[1] - 1) / 1.0, 2)));
+			return	3 * exp(-pow((x[0] - 2) / 1.0, 2) - pow((x[1] - 3) / 2.0, 2)) +
+					1 * exp(-pow((x[0] - 1) / 2.0, 2) - pow((x[1] - 1) / 1.0, 2));
 		},
 
 		// Квадратичная функция
@@ -37,7 +37,7 @@ int main()
 	descent_methods methods(DIMENSION);
 
 	// Начальное приближение
-	std::vector<double> x0 = {0, 0};
+	std::vector<double> x0 = {-1, -1};
 
 	double epsilons[] = {1e-3, 1e-4, 1e-5, 1e-6, 1e-7};
 	double eps = 1e-7;
@@ -46,24 +46,24 @@ int main()
 	//{
 	//	auto res1 = methods.broyden(functions[0], x0, eps);
 	//	res1.save("broyden.txt");
-	//	x0 = { 0, 0 };
+	//	x0 = { 1, 1 };
 
 	//	auto res2 = methods.CGMFR(functions[0], x0, eps);
 	//	res2.save("CGMFR.txt");
-	//	x0 = { 0, 0 };
+	//	x0 = { 1, 1 };
 	//}
 
 	auto res1 = methods.broyden(functions[2], x0, eps);
 	res1.save("broyden.txt");
 	std::string run_python = "python draw.py Бройден_" + func_names[2] + " " + "steps_broyden.txt";
 	system(run_python.c_str());
-	x0 = { 0, 0 };
+	x0 = { -1, -1 };
 
 	auto res2 = methods.CGMFR(functions[2], x0, eps);
 	res2.save("CGMFR.txt");
 	run_python = "python draw.py МСГРФ_" + func_names[2] + " " + "steps_CGMFR.txt";
 	system(run_python.c_str());
-	x0 = { 0, 0 };
+	x0 = { -1, -1 };
 
 	return 0;
 }

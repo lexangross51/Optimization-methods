@@ -59,7 +59,7 @@ descent_methods::result descent_methods::broyden(const VectorFunc& f, std::vecto
 		// Найдем lambda_k: для этого воспользуемся методом Фибоначии одномерного поиска
 		// Но сначала определим интервал, на котором достигает своего минимума функция
 		auto res_int = one_dimensional_search_methods::find_interval(f, x0, S, eps);
-		auto res_fib = one_dimensional_search_methods::fibonacci(f, x0, res_int.interval, S, eps);
+		auto res_fib = one_dimensional_search_methods::golden_ratio(f, x0, res_int.interval, S, eps);
 		 
 		double lambda_k = res_fib.value;
 
@@ -116,6 +116,12 @@ descent_methods::result descent_methods::broyden(const VectorFunc& f, std::vecto
 // Метод сопряженных градиентов с модификацией Флетчера-Ривса
 descent_methods::result descent_methods::CGMFR(const VectorFunc& f, std::vector<double>& x0, double eps)
 {
+	etta_k =
+	{
+		{0.0, 0.0},
+		{0.0, 0.0}
+	};
+
 	calls_to_func = 0;
 
 	std::ofstream steps("steps_CGMFR.txt");
@@ -145,7 +151,7 @@ descent_methods::result descent_methods::CGMFR(const VectorFunc& f, std::vector<
 			// Найдем lambda_k: для этого воспользуемся методом Фибоначии одномерного поиска
 			// Но сначала определим интервал, на котором достигает своего минимума функция
 			auto res_int = one_dimensional_search_methods::find_interval(f, x0, S, eps);
-			auto res_fib = one_dimensional_search_methods::fibonacci(f, x0, res_int.interval, S, eps);
+			auto res_fib = one_dimensional_search_methods::golden_ratio(f, x0, res_int.interval, S, eps);
 			double lambda_k = res_fib.value;
 
 			x = x0 + lambda_k * S;
