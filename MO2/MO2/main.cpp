@@ -37,7 +37,7 @@ int main()
 	descent_methods methods(DIMENSION);
 
 	// Начальное приближение
-	std::vector<double> x0 = {-1, -1};
+	std::vector<double> x0 = { -1, -1 };
 
 	double epsilons[] = {1e-3, 1e-4, 1e-5, 1e-6, 1e-7};
 	double eps = 1e-7;
@@ -53,17 +53,16 @@ int main()
 	//	x0 = { 1, 1 };
 	//}
 
-	auto res1 = methods.broyden(functions[2], x0, eps);
+	auto res1 = methods.broyden(functions[0], x0, eps);
 	res1.save("broyden.txt");
-	std::string run_python = "python draw.py Бройден_" + func_names[2] + " " + "steps_broyden.txt";
+	std::string run_python = "python draw.py Бройден_" + func_names[0] + " " + "steps_broyden.txt";
 	system(run_python.c_str());
 	x0 = { -1, -1 };
 
-	auto res2 = methods.CGMFR(functions[2], x0, eps);
+	auto res2 = methods.CGMFR(functions[0], x0, eps);
 	res2.save("CGMFR.txt");
-	run_python = "python draw.py МСГРФ_" + func_names[2] + " " + "steps_CGMFR.txt";
+	run_python = "python draw.py МСГРФ_" + func_names[0] + " " + "steps_CGMFR.txt";
 	system(run_python.c_str());
-	x0 = { -1, -1 };
 
 	return 0;
 }

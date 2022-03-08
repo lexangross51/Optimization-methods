@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pylab as pl
-from mpl_toolkits import mplot3d
-from decimal import Decimal as dcm
 import sys
 
 # Функция по варианту
@@ -11,7 +9,7 @@ def f1(x, y):
 
 # Квадратичная функция
 def f2(x, y):
-	return 100 * (y - x) ** 2 + (1 - x) ** 2
+	return 100 * (y - x) * (y - x) + (1 - x) * (1 - x)
 
 # Функция Розенброка
 def f3(x, y):
@@ -24,16 +22,16 @@ def input(filename):
 
 	with open (filename) as file:
 		for line in file:
-			x_i, y_i = map(dcm, line.split(" "))
+			x_i, y_i = map(float, line.split(" "))
 			x.append(x_i)
 			y.append(y_i)
 
 	return x, y
 
 # Строим сетку
-def build_mesh(func):
-	x = np.arange(-3, 3, 0.05)
-	y = np.arange(-3, 3, 0.05)
+def build_mesh(x_vals, y_vals, func):
+	x = np.arange(min(x_vals) - 5, max(x_vals) + 5, 0.05)
+	y = np.arange(min(y_vals) - 5, max(y_vals) + 5, 0.05)
 
 	X, Y = np.meshgrid(x, y)
 
@@ -53,7 +51,11 @@ def main():
 	name = sys.argv[1]
 	filename = sys.argv[2]
 	x, y = input(filename)
-	X, Y, Z = build_mesh(f3)
+
+	X, Y, Z = build_mesh(x, y, f1)
+
+	residual = pl.contourf(X, Y, Z, levels = 50)
+	plt.colorbar(residual, location = "right")
 
 	plt.contour(X, Y, Z)
 	draw_line(x, y, name)

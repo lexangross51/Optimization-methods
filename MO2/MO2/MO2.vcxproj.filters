@@ -47,4 +47,9 @@
       <Filter>Результаты</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="draw.py">
+      <Filter>Исходные файлы</Filter>
+    </None>
+  </ItemGroup>
 </Project>

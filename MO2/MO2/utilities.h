@@ -16,7 +16,7 @@ inline void grad(const VectorFunc& f, std::vector<double>& x, std::vector<double
 	gradient.clear();
 	gradient.resize(x.size());
 
-	const double h = 1e-10;
+	const double h = 1e-14;
 
 	const double fx = f(x);
 

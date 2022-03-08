@@ -152,6 +152,9 @@
     <Text Include="steps_broyden.txt" />
     <Text Include="steps_CGMFR.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="draw.py" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

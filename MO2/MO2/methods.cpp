@@ -59,7 +59,7 @@ descent_methods::result descent_methods::broyden(const VectorFunc& f, std::vecto
 		// Найдем lambda_k: для этого воспользуемся методом Фибоначии одномерного поиска
 		// Но сначала определим интервал, на котором достигает своего минимума функция
 		auto res_int = one_dimensional_search_methods::find_interval(f, x0, S, eps);
-		auto res_fib = one_dimensional_search_methods::golden_ratio(f, x0, res_int.interval, S, eps);
+		auto res_fib = one_dimensional_search_methods::fibonacci(f, x0, res_int.interval, S, eps);
 		 
 		double lambda_k = res_fib.value;
 
@@ -151,7 +151,7 @@ descent_methods::result descent_methods::CGMFR(const VectorFunc& f, std::vector<
 			// Найдем lambda_k: для этого воспользуемся методом Фибоначии одномерного поиска
 			// Но сначала определим интервал, на котором достигает своего минимума функция
 			auto res_int = one_dimensional_search_methods::find_interval(f, x0, S, eps);
-			auto res_fib = one_dimensional_search_methods::golden_ratio(f, x0, res_int.interval, S, eps);
+			auto res_fib = one_dimensional_search_methods::fibonacci(f, x0, res_int.interval, S, eps);
 			double lambda_k = res_fib.value;
 
 			x = x0 + lambda_k * S;
@@ -228,6 +228,7 @@ void descent_methods::print_iter(std::ofstream& res, uint32_t iter,
 }
 
 //------------------------------------------------------------------------------------------------------------------
+// МЕТОДЫ ОДНОМЕРНОГО ПОИСКА 
 // Поиска интервала, содержащего минимум функции n переменных по направлению S
 one_dimensional_search_methods::result one_dimensional_search_methods::find_interval(
 	const VectorFunc& f, std::vector<double>& x, std::vector<double>& S, double eps)
