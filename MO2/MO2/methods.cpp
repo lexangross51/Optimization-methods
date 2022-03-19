@@ -55,6 +55,7 @@ descent_methods::result descent_methods::broyden(const VectorFunc& f, std::vecto
 			};
 		}
 		S = etta_k * grad_f;
+		S = -S;
 
 		// Найдем lambda_k: для этого воспользуемся методом Фибоначии одномерного поиска
 		// Но сначала определим интервал, на котором достигает своего минимума функция
@@ -70,7 +71,7 @@ descent_methods::result descent_methods::broyden(const VectorFunc& f, std::vecto
 		x0 = x0 + dx;
 
 		auto grad_f_prev = grad_f;
-	
+		
 		grad(f, x0, grad_f);
 
 		auto delta_grad_f = grad_f - grad_f_prev;
@@ -101,7 +102,7 @@ descent_methods::result descent_methods::broyden(const VectorFunc& f, std::vecto
 
 		print_iter(table, res.iter_cnt, x0, f, lambda_k);
 
-	} while (norm(grad_f) > eps && abs(f(x0) - f(x)) > eps);
+	} while (norm(grad_f) > eps && abs(f(x0) - f(x)) > eps /*/ 1000.0*/);
 
 	res.call_to_func = calls_to_func - res.iter_cnt * 3;
 	res.x = x0;
@@ -141,7 +142,7 @@ descent_methods::result descent_methods::CGMFR(const VectorFunc& f, std::vector<
 		
 		S = -grad_f;
 
-		if (norm(S) < eps)
+		if (norm(S) < eps / 1000.0)
 			break;
 
 		for (uint32_t k = 0; k <= 2; k++)
@@ -169,14 +170,14 @@ descent_methods::result descent_methods::CGMFR(const VectorFunc& f, std::vector<
 			std::swap(x, x0);
 			steps << x0[0] << " " << x0[1] << std::endl;
 
-			if (norm(S) < eps)
+			if (norm(S) < eps / 1000.0)
 				break;
 		}
 	}
 
 	res.call_to_func = calls_to_func - res.iter_cnt * 3;
-	res.x = x0;
-	res.fx = f(x0);
+	res.x = x;
+	res.fx = f(x);
 
 	steps.close();
 	table.close();

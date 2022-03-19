@@ -75,7 +75,7 @@ inline void vec_to_vecT(const std::vector<double>& a, const std::vector<double>&
 
 	for (uint32_t i = 0; i < a.size(); i++)
 		for (uint32_t j = 0; j < a.size(); j++)
-			matrix[i][j] = a[i] * b[j];
+			matrix[i][j] += a[i] * b[j];
 }
 
 // Норма вектора
