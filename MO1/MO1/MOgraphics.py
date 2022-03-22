@@ -7,7 +7,7 @@ dichotomy = [18, 26, 32, 38, 46, 52, 58]
 golden_ratio = [14, 18, 23, 28, 33, 38, 42]
 fibonacci = [14, 18, 23, 28, 33, 37, 42]
 eps = [1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7]
-log_eps = [log(x) for x in eps]
+log_eps = [log10(x) for x in eps]
 
 xnew = np.linspace(log_eps[0], log_eps[-1], 30)
 f1 = interpolate.interp1d(log_eps, dichotomy, kind = 'cubic')

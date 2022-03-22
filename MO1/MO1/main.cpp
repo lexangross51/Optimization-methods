@@ -174,6 +174,11 @@ void find_interval(const func1D& f, double a, double b, double x0, double eps)
 
     } while (f1 > f2);
 
+    if (xk1 < xk_1)
+        std::swap(xk1, xk_1);
+
+
+    out << std::left << std::setw(15) << xk1 << std::setw(15) << f(xk1) << std::endl;
     out << "Interval with a minimum of a function: [" << xk_1 << ", " << xk1 << "]" << std::endl << std::endl;
     out.close();
 }
@@ -256,18 +261,18 @@ int main()
 
     double a = -2, b = 20, eps = 1e-7;
 
-    double epsilons[] = { 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7 };
+    double epsilons[] = { 1e-6, 1e-7 };
     
     for (const auto& i : epsilons)
     {
-        dichotomy(f, a, b, i);
+       // dichotomy(f, a, b, i);
 
-        golden_ratio(f, a, b, i);
+        //golden_ratio(f, a, b, i);
 
-        find_interval(f, a, b, 0, i);
+        find_interval(f, a, b, 3, i);
 
-        fibonacci(f, a, b, i);
+        //fibonacci(f, a, b, i);
     }
-
+     
     return 0;
 }
