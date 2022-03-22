@@ -66,8 +66,18 @@ int main()
 		//res2 = methods.CGMFR(functions[1], x0, eps);
 		//res2.save("CGMFR.txt");
 
-		x0 = { 3, -3 };
-		auto res2 = methods.CGMFR(functions[2], x0, eps);
+
+		x0 = { -1, -1 };
+		auto res1 = methods.broyden(functions[0], x0, eps);
+		res1.save("broyden.txt");
+		std::string run_python = "python draw.py Бройден_" + func_names[0] + " " + "steps_broyden.txt";
+		system(run_python.c_str());
+
+
+		x0 = { -1, -1 };
+		auto res2 = methods.CGMFR(functions[0], x0, eps);
+		run_python = "python draw.py мсгрф_" + func_names[0] + " " + "steps_cgmfr.txt";
+		system(run_python.c_str());
 		res2.save("CGMFR.txt");
 	}
 

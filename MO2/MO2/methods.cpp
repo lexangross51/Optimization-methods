@@ -102,7 +102,7 @@ descent_methods::result descent_methods::broyden(const VectorFunc& f, std::vecto
 
 		print_iter(table, res.iter_cnt, x0, f, lambda_k);
 
-	} while (norm(grad_f) > eps && abs(f(x0) - f(x)) > eps /*/ 1000.0*/);
+	} while (norm(grad_f) > eps && abs(f(x0) - f(x)) > eps / 1000.0);
 
 	res.call_to_func = calls_to_func - res.iter_cnt * 3;
 	res.x = x0;
