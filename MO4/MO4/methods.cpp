@@ -1,15 +1,15 @@
-#include "methods.hpp"
+п»ї#include "methods.hpp"
 
 extern uint32_t calls_to_func;
 
-std::mt19937_64 gen(1); // <- // ВОТ ТУТ МЕНЯТЬ ДЛЯ ИССЛЕДОВАНИЯ СО ЗВЕЗДОЧКОЙ
-							 // ЖЕЛАТЕЛЬНО БРАТЬ СИЛЬНО ОТЛИЧАЮЩИЕСЯ ЗНАЧЕНИЯ
-							 // МОЖНО ДАЖЕ БРАТЬ ОГРОМНЫЕ ЗНАЧЕНИЯ
+std::mt19937_64 gen(1); // <- // Р’РћРў РўРЈРў РњР•РќРЇРўР¬ Р”Р›РЇ РРЎРЎР›Р•Р”РћР’РђРќРРЇ РЎРћ Р—Р’Р•Р—Р”РћР§РљРћР™
+							 // Р–Р•Р›РђРўР•Р›Р¬РќРћ Р‘Р РђРўР¬ РЎРР›Р¬РќРћ РћРўР›РР§РђР®Р©РР•РЎРЇ Р—РќРђР§Р•РќРРЇ
+							 // РњРћР–РќРћ Р”РђР–Р• Р‘Р РђРўР¬ РћР“Р РћРњРќР«Р• Р—РќРђР§Р•РќРРЇ
 std::uniform_real_distribution<> dist(-10, 10);
 
 //=====================================================================================
-// МЕТОДЫ СТАТИСТИЧЕСКОГО ПОИСКА
-// Простой случайный поиск
+// РњР•РўРћР”Р« РЎРўРђРўРРЎРўРР§Р•РЎРљРћР“Рћ РџРћРРЎРљРђ
+// РџСЂРѕСЃС‚РѕР№ СЃР»СѓС‡Р°Р№РЅС‹Р№ РїРѕРёСЃРє
 statistical_search::result statistical_search::simple_random_search(
 	const function2D& f,
 	interval& x_int,
@@ -21,7 +21,7 @@ statistical_search::result statistical_search::simple_random_search(
 	res.eps = eps;
 	res.P = P;
 
-	// Определяем число испытаний
+	// РћРїСЂРµРґРµР»СЏРµРј С‡РёСЃР»Рѕ РёСЃРїС‹С‚Р°РЅРёР№
 	// ---------------------------------------------------
 	double V = (x_int.b - x_int.a) * (y_int.b - y_int.a);
 
@@ -67,7 +67,7 @@ statistical_search::result statistical_search::simple_random_search(
 	return res;
 }
 
-// Метод глобального поиска №1
+// РњРµС‚РѕРґ РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ РїРѕРёСЃРєР° в„–1
 statistical_search::result statistical_search::global_search_1(
 	const function2D& f,
 	double eps,
@@ -108,7 +108,7 @@ statistical_search::result statistical_search::global_search_1(
 	return res;
 }
 
-// Метод глобального поиска №2
+// РњРµС‚РѕРґ РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ РїРѕРёСЃРєР° в„–2
 statistical_search::result statistical_search::global_search_2(
 	const function2D& f,
 	double eps,
@@ -156,7 +156,7 @@ statistical_search::result statistical_search::global_search_2(
 	return res;
 }
 
-// Метод глобального поиска №3
+// РњРµС‚РѕРґ РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ РїРѕРёСЃРєР° в„–3
 statistical_search::result statistical_search::global_search_3(
 	const function2D& f,
 	interval& x_int,
@@ -219,7 +219,7 @@ statistical_search::result statistical_search::global_search_3(
 
 
 //=====================================================================================
-// МЕТОДЫ ПРЯМОГО ПОИСКА 
+// РњР•РўРћР”Р« РџР РЇРњРћР“Рћ РџРћРРЎРљРђ 
 direct_search::direct_search(const uint32_t dimension)
 {
 	x.resize(dimension);
@@ -249,7 +249,7 @@ direct_search::result direct_search::rosenbrock(
 	{
 		x = x0;
 
-		// Минимизируем по каждому из направлений
+		// РњРёРЅРёРјРёР·РёСЂСѓРµРј РїРѕ РєР°Р¶РґРѕРјСѓ РёР· РЅР°РїСЂР°РІР»РµРЅРёР№
 		auto interval = one_dimensional_search::find_interval(f, x0, S1, eps).interval;
 		double lambda1 = one_dimensional_search::golden_ratio(f, x0, interval, S1, eps).value;
 		x0 = x0 + lambda1 * S1;
@@ -258,16 +258,16 @@ direct_search::result direct_search::rosenbrock(
 		double lambda2 = one_dimensional_search::golden_ratio(f, x0, interval, S2, eps).value;
 		x0 = x0 + lambda2 * S2;
 
-		// Производим ортогонализацию
+		// РџСЂРѕРёР·РІРѕРґРёРј РѕСЂС‚РѕРіРѕРЅР°Р»РёР·Р°С†РёСЋ
 		A1 = lambda1 * S1 + lambda2 * S2;
 
-		// Лямбды должны располагаться в порядке убывния по абсолютному значению
+		// Р›СЏРјР±РґС‹ РґРѕР»Р¶РЅС‹ СЂР°СЃРїРѕР»Р°РіР°С‚СЊСЃСЏ РІ РїРѕСЂСЏРґРєРµ СѓР±С‹РІРЅРёСЏ РїРѕ Р°Р±СЃРѕР»СЋС‚РЅРѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ
 		if (lambda1 >= lambda2)
 			A2 = lambda2 * S2;
 		else
 			A2 = lambda1 * S1;
 
-		// Грамм - Жмых
+		// Р“СЂР°РјРј - Р–РјС‹С…
 		S1 = A1 / norm(A1);
 
 		auto B2 = A2 - (A2 * S2) * S2;
@@ -293,8 +293,8 @@ direct_search::result direct_search::rosenbrock(
 
 
 //=====================================================================================
-// МЕТОДЫ ОДНОМЕРНОГО ПОИСКА 
-// Поиска интервала, содержащего минимум функции n переменных по направлению S
+// РњР•РўРћР”Р« РћР”РќРћРњР•Р РќРћР“Рћ РџРћРРЎРљРђ 
+// РџРѕРёСЃРєР° РёРЅС‚РµСЂРІР°Р»Р°, СЃРѕРґРµСЂР¶Р°С‰РµРіРѕ РјРёРЅРёРјСѓРј С„СѓРЅРєС†РёРё n РїРµСЂРµРјРµРЅРЅС‹С… РїРѕ РЅР°РїСЂР°РІР»РµРЅРёСЋ S
 one_dimensional_search::result one_dimensional_search::find_interval(
 	const function2D& f, 
 	std::vector<double>& x, 
@@ -351,7 +351,7 @@ one_dimensional_search::result one_dimensional_search::find_interval(
 	return res;
 }
 
-// Метод золотого сечения одномерного поиска
+// РњРµС‚РѕРґ Р·РѕР»РѕС‚РѕРіРѕ СЃРµС‡РµРЅРёСЏ РѕРґРЅРѕРјРµСЂРЅРѕРіРѕ РїРѕРёСЃРєР°
 one_dimensional_search::result one_dimensional_search::golden_ratio(
 	const function2D& f, 
 	std::vector<double>& x, 
@@ -396,7 +396,7 @@ one_dimensional_search::result one_dimensional_search::golden_ratio(
 	return res;
 }
 
-// Метод парабол одномерного поиска
+// РњРµС‚РѕРґ РїР°СЂР°Р±РѕР» РѕРґРЅРѕРјРµСЂРЅРѕРіРѕ РїРѕРёСЃРєР°
 one_dimensional_search::result one_dimensional_search::parabola(
 	const function2D& f, 
 	std::vector<double>& x, 

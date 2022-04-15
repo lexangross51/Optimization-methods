@@ -1,4 +1,4 @@
-#include "methods.hpp"
+Ôªø#include "methods.hpp"
 
 uint32_t calls_to_func;
 
@@ -21,7 +21,7 @@ int main()
 	};
 
 	// ====================================================================================
-	// ================================== »——À≈ƒŒ¬¿Õ»ﬂ ====================================
+	// ================================== –ò–°–°–õ–ï–î–û–í–ê–ù–ò–Ø ====================================
 	// ====================================================================================
 	statistical_search stat_search(DIMENSION);
 
@@ -29,7 +29,7 @@ int main()
 
 	if (table.is_open())
 	{
-		#pragma region »ÒÒÎÂ‰Ó‚‡ÌËÂ π1
+		#pragma region –ò—Å—Å–ª–µ–¥–æ–≤–∞–Ω–∏–µ ‚Ññ1
 		{
 			table << "SIMPLE RANDOM SEARCH" << std::endl;
 			table << std::left
@@ -72,14 +72,14 @@ int main()
 		#pragma endregion
 
 
-		#pragma region »ÒÒÎÂ‰Ó‚‡ÌËÂ π2
+		#pragma region –ò—Å—Å–ª–µ–¥–æ–≤–∞–Ω–∏–µ ‚Ññ2
 		{
 			interval x_int(-10, 10);
 			interval y_int(-10, 10);
 
 			auto print_global_search_result = [&](uint32_t num) -> void
 			{
-				table << "GLOBAL SEARCH π" << num << std::endl;
+				table << "GLOBAL SEARCH ‚Ññ" << num << std::endl;
 				table << std::left
 					<< std::setw(7) << "eps" << "|"
 					<< std::setw(10) << "calls to f" << "|"

@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #ifndef UTILITIES_HPP
 #define UTILITIES_HPP
 
@@ -11,7 +11,7 @@
 
 typedef std::function<double(const std::vector<double>&)> function2D;
 
-// Сложение векторов
+// РЎР»РѕР¶РµРЅРёРµ РІРµРєС‚РѕСЂРѕРІ
 inline std::vector<double> operator+(const std::vector<double>& a, const std::vector<double>& b)
 {
 	std::vector<double> res = a;
@@ -20,7 +20,7 @@ inline std::vector<double> operator+(const std::vector<double>& a, const std::ve
 	return res;
 }
 
-// Вычитание векторов
+// Р’С‹С‡РёС‚Р°РЅРёРµ РІРµРєС‚РѕСЂРѕРІ
 inline std::vector<double> operator-(const std::vector<double>& a, const std::vector<double>& b)
 {
 	std::vector<double> res = a;
@@ -29,7 +29,7 @@ inline std::vector<double> operator-(const std::vector<double>& a, const std::ve
 	return res;
 }
 
-// Умножение векторов (скалярное произведение)
+// РЈРјРЅРѕР¶РµРЅРёРµ РІРµРєС‚РѕСЂРѕРІ (СЃРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ)
 inline double operator*(const std::vector<double>& a, const std::vector<double>& b)
 {
 	double scalar = 0.0;
@@ -38,7 +38,7 @@ inline double operator*(const std::vector<double>& a, const std::vector<double>&
 	return scalar;
 }
 
-// Умножить константу на вектор
+// РЈРјРЅРѕР¶РёС‚СЊ РєРѕРЅСЃС‚Р°РЅС‚Сѓ РЅР° РІРµРєС‚РѕСЂ
 inline std::vector<double> operator*(const double& c, const std::vector<double>& a)
 {
 	std::vector<double> res = a;
@@ -47,7 +47,7 @@ inline std::vector<double> operator*(const double& c, const std::vector<double>&
 	return res;
 }
 
-// Умножить вектор на транспонированный вектор
+// РЈРјРЅРѕР¶РёС‚СЊ РІРµРєС‚РѕСЂ РЅР° С‚СЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅРЅС‹Р№ РІРµРєС‚РѕСЂ
 inline void vec_to_vecT(const std::vector<double>& a, const std::vector<double>& b, std::vector<std::vector<double>>& matrix)
 {
 	matrix.clear();
@@ -61,13 +61,13 @@ inline void vec_to_vecT(const std::vector<double>& a, const std::vector<double>&
 			matrix[i][j] += a[i] * b[j];
 }
 
-// Норма вектора
+// РќРѕСЂРјР° РІРµРєС‚РѕСЂР°
 inline double norm(const std::vector<double>& a)
 {
 	return sqrt(a * a);
 }
 
-// Умножить матрицу на вектор
+// РЈРјРЅРѕР¶РёС‚СЊ РјР°С‚СЂРёС†Сѓ РЅР° РІРµРєС‚РѕСЂ
 inline std::vector<double> operator*(const std::vector<std::vector<double>>& matrix, const std::vector<double>& vector)
 {
 	std::vector<double> result(vector.size());
@@ -79,7 +79,7 @@ inline std::vector<double> operator*(const std::vector<std::vector<double>>& mat
 	return result;
 }
 
-// Разделить вектор на число
+// Р Р°Р·РґРµР»РёС‚СЊ РІРµРєС‚РѕСЂ РЅР° С‡РёСЃР»Рѕ
 inline std::vector<double> operator/(std::vector<double>& vector, const double c)
 {
 	auto res = vector;
@@ -90,7 +90,7 @@ inline std::vector<double> operator/(std::vector<double>& vector, const double c
 	return res;
 }
 
-// Вывод вектора в поток
+// Р’С‹РІРѕРґ РІРµРєС‚РѕСЂР° РІ РїРѕС‚РѕРє
 inline std::ostream& operator <<(std::ostream& out, std::vector<double>& a)
 {
 	out << "(" << a[0] << ", " << a[1] << ")";
@@ -98,7 +98,7 @@ inline std::ostream& operator <<(std::ostream& out, std::vector<double>& a)
 	return out;
 }
 
-// Изменить все значения в векторе на противоположные
+// РР·РјРµРЅРёС‚СЊ РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ РІ РІРµРєС‚РѕСЂРµ РЅР° РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅС‹Рµ
 inline std::vector<double> operator-(const std::vector<double>& a)
 {
 	std::vector<double> neg_a = a;
